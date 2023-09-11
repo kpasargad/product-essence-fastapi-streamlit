@@ -18,23 +18,23 @@ This project offers a fast and efficient method for users to search and find pro
 ### Backend (FastAPI)
 
 1. Install required packages:
-pip install fastapi[all] asyncpg
+```pip install fastapi[all] asyncpg```
 
 
 2. Update `config.py` with the appropriate database configurations.
 
 3. Run the FastAPI server:
-uvicorn your_fastapi_filename:app --reload
+```uvicorn your_fastapi_filename:app --reload```
 
 
 ### Frontend (Streamlit)
 
 1. Install required packages:
-pip install streamlit requests
+```pip install streamlit requests```
 
 
 2. Run the Streamlit app:
-streamlit run your_streamlit_filename.py
+```streamlit run your_streamlit_filename.py```
 
 vbnet
 Copy code
