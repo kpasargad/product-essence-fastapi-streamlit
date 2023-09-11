@@ -20,7 +20,7 @@ This project offers a fast and efficient method for users to search and find pro
 1. Install required packages:
 
 ```bash
-pip install fastapi[all] asyncpg
+pip install -r requirements.txt
 ```
 
 
