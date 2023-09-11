@@ -29,7 +29,7 @@ pip install -r requirements.txt
 3. Run the FastAPI server:
 
 ```bash
-uvicorn your_fastapi_filename:app --reload
+uvicorn main:app --reload
 ```
 
 
@@ -45,11 +45,8 @@ pip install streamlit requests
 2. Run the Streamlit app:
 
 ```bash
-streamlit run your_streamlit_filename.py
+streamlit run streamlit_app.py
 ```
-
-vbnet
-Copy code
 
 3. Navigate to the provided local URL in your browser (usually `http://localhost:8501/`).
 
