@@ -6,9 +6,9 @@ from config import DB_CONFIG, LIMIT, OFFSET
 app = FastAPI()
 
 
-class Condition(Enum):
-    like = "LIKE"
-    exact = "="
+class SearchType(Enum):
+    LIKE = "Like"
+    EXACT = "Exact"
 
 
 async def get_db_pool():
@@ -40,19 +40,19 @@ def get_db_pool_dependency():
 
 
 def build_essence_query(
-    condition: Condition, essence_title: str, limit: int, offset: int
+    search_type: SearchType, essence_title: str, limit: int, offset: int
 ):
-    if condition == Condition.like:
+    if search_type == SearchType.LIKE:
         essence_title = f"%{essence_title}%"
 
-    print(condition.value)
+    search_type_value = "LIKE" if search_type == SearchType.LIKE else "="
 
     query = f"""
         SELECT pe.essence_title, p.id, p.title as product_title,
                'https://basalam.com/p/' || p.id as url
         FROM product_essences pe
         JOIN products p ON pe.product_id = p.id
-        WHERE pe.essence_title {condition.value} $1
+        WHERE pe.essence_title {search_type_value} $1
         ORDER BY pe.essence_title, p.id desc
         LIMIT $2 OFFSET $3
     """
@@ -60,15 +60,15 @@ def build_essence_query(
     return query, [essence_title, limit, offset]
 
 
-@app.get("/essence/{condition}")
+@app.get("/essence")
 async def essence_query(
-    condition: Condition,
+    search_type: SearchType,
     essence_title: str = Query(...),
     limit: int = LIMIT,
     offset: int = OFFSET,
     pool: asyncpg.Pool = Depends(get_db_pool_dependency),
 ):
     query, params = build_essence_query(
-        condition, essence_title, limit, offset
+        search_type, essence_title, limit, offset
     )
     return await run_query(query, *params, pool=pool)
