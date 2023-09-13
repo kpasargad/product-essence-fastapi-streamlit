@@ -47,7 +47,7 @@ def build_essence_query(
 
     search_type_value = "LIKE" if search_type == SearchType.LIKE else "="
 
-    query = f"""
+    query = """
         SELECT pe.essence_title, p.id, p.title as product_title,
                'https://basalam.com/p/' || p.id as url
         FROM product_essences pe
@@ -55,7 +55,9 @@ def build_essence_query(
         WHERE pe.essence_title {search_type_value} $1
         ORDER BY pe.essence_title, p.id desc
         LIMIT $2 OFFSET $3
-    """
+    """.format(
+        search_type_value=search_type_value
+    )
 
     return query, [essence_title, limit, offset]
 
